@@ -1,1 +1,1210 @@
+/* ===== RESET & BASE STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gold: #ffd700;
+    --glass-bg: rgba(0, 0, 0, 0.3);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --success: #27ae60;
+    --error: #e74c3c;
+    --warning: #f39c12;
+    --info: #3498db;
+    --purple: #9b59b6;
+    --red: #e74c3c;
+    --blue: #3498db;
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --border-radius: 15px;
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: var(--primary-gradient);
+    min-height: 100vh;
+    color: white;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* ===== NAVIGATION ===== */
+.navbar {
+    background: var(--glass-bg);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: var(--transition);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.nav-links a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+}
+
+/* ===== CLOCK & USER INFO ===== */
+.clock {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 1rem 0;
+    background: var(--glass-bg);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(15px);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--glass-bg);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin: 1rem;
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+}
+
+.profile-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--gold);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.vip-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.vip1 { background: linear-gradient(45deg, #c0392b, #e74c3c); }
+.vip2 { background: linear-gradient(45deg, #d4af37, var(--gold)); }
+.vip3 { background: linear-gradient(45deg, #8e44ad, var(--purple)); }
+
+/* ===== LOTTERY CONTAINERS ===== */
+.lottery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin: 2rem;
+}
+
+.lottery-box {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(15px);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.lottery-box:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 215, 0, 0.6);
+}
+
+.lottery-box::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 70%);
+    animation: rotate 25s linear infinite;
+    z-index: 0;
+}
+
+.lottery-box > * {
+    position: relative;
+    z-index: 1;
+}
+
+.lottery-title {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: var(--gold);
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* ===== MANUAL DRAWS ===== */
+.manual-draw {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border: 2px solid var(--gold);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(15px);
+    transition: var(--transition);
+}
+
+.manual-draw:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
+}
+
+.manual-draw::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.manual-draw:hover::before {
+    left: 100%;
+}
+
+.draw-name {
+    font-size: 1.1rem;
+    color: var(--gold);
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.draw-name::before {
+    content: '🎰';
+    font-size: 1.3rem;
+    animation: bounce 2s infinite;
+}
+
+.draw-time {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.draw-time small {
+    display: block;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: normal;
+    margin-top: 0.3rem;
+}
+
+/* ===== DRAW STATUSES ===== */
+.draw-status {
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-weight: bold;
+    display: inline-block;
+    margin: 0.8rem 0;
+    text-align: center;
+    min-width: 120px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.status-upcoming { 
+    background: linear-gradient(45deg, var(--blue), #2980b9);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+}
+
+.status-upcoming::before {
+    content: '⏰ ';
+    margin-right: 0.5rem;
+}
+
+.status-active { 
+    background: linear-gradient(45deg, var(--error), #c0392b);
+    animation: statusPulse 1.5s infinite, statusGlow 2s infinite alternate;
+    box-shadow: 0 4px 20px rgba(231, 76, 60, 0.6);
+}
+
+.status-active::before {
+    content: '🔥 ';
+    margin-right: 0.5rem;
+}
+
+.status-completed { 
+    background: linear-gradient(45deg, var(--success), #229954);
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
+}
+
+.status-completed::before {
+    content: '✅ ';
+    margin-right: 0.5rem;
+}
+
+/* ===== SCROLL CONTAINERS & ANIMATIONS ===== */
+.scroll-container {
+    height: 200px;
+    overflow: hidden;
+    border: 3px solid var(--gold);
+    border-radius: var(--border-radius);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4));
+    position: relative;
+    box-shadow: 
+        inset 0 0 25px rgba(255, 215, 0, 0.2),
+        0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.scroll-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, transparent 30%, rgba(255, 215, 0, 0.1) 50%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.scroll-numbers {
+    display: flex;
+    flex-direction: column;
+    animation: scrollAnimation 1.8s linear infinite;
+    font-size: 4rem;
+    font-weight: bold;
+    text-align: center;
+    line-height: 200px;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.scroll-numbers.stopped {
+    animation: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.winning-number {
+    color: var(--gold);
+    text-shadow: 
+        0 0 25px var(--gold), 
+        0 0 50px var(--gold),
+        0 0 75px rgba(255, 215, 0, 0.5);
+    font-size: 1.2em;
+    font-weight: 900;
+    animation: winningPulse 2s infinite, winningGlow 3s infinite;
+}
+
+.scroll-numbers.stopped .winning-number {
+    font-size: 4.5rem;
+    animation: winningReveal 2.5s ease-out, winningPulse 2s infinite 2.5s;
+}
+
+/* ===== HISTORY & STATISTICS ===== */
+.history-box {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2));
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 2rem;
+    backdrop-filter: blur(15px);
+    max-height: 450px;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: var(--shadow);
+}
+
+.history-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-box::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.history-box::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 4px;
+}
+
+.history-box h3 {
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 0.8rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.history-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--gold), #ff6b6b);
+    transform: scaleY(0);
+    transition: transform 0.4s ease;
+}
+
+.history-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateX(8px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.2);
+}
+
+.history-item:hover::before {
+    transform: scaleY(1);
+}
+
+/* ===== SPECIAL DRAW TYPES ===== */
+.weekend-special {
+    border: 3px solid #ff6b6b;
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(238, 90, 36, 0.1));
+}
+
+.weekend-special .draw-name::before {
+    content: '🌟';
+}
+
+.weekend-special .lottery-title {
+    color: #ff6b6b;
+    text-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+}
+
+.mini-draw {
+    border: 2px solid #00d2d3;
+    background: linear-gradient(135deg, rgba(0, 210, 211, 0.2), rgba(1, 163, 164, 0.1));
+}
+
+.mini-draw .draw-name::before {
+    content: '⚡';
+}
+
+.mini-draw .lottery-title {
+    color: #00d2d3;
+    font-size: 1.3rem;
+    text-shadow: 0 0 15px rgba(0, 210, 211, 0.5);
+}
+
+.mini-draw .scroll-container {
+    height: 140px;
+    border-color: #00d2d3;
+}
+
+.mini-draw .scroll-numbers {
+    line-height: 140px;
+    font-size: 3rem;
+}
+
+/* ===== FORMS & BUTTONS ===== */
+.btn {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.login-container, .betting-container, .balance-page, .leaderboard {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+    padding: 2.5rem;
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    color: var(--gold);
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.form-group input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ===== NOTIFICATIONS ===== */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7));
+    color: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--gold);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    transform: translateX(450px);
+    transition: transform 0.4s ease;
+    z-index: 1000;
+    max-width: 350px;
+    backdrop-filter: blur(15px);
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification.success { border-left-color: var(--success); }
+.notification.error { border-left-color: var(--error); }
+.notification.info { border-left-color: var(--info); }
+
+/* ===== DRAW STATISTICS ===== */
+.draw-stats {
+    background: var(--glass-bg);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    backdrop-filter: blur(15px);
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+.stat-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--gold);
+    display: block;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ===== COUNTDOWN TIMER ===== */
+.countdown-timer {
+    display: inline-block;
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-left: 0.8rem;
+    animation: timerPulse 1.5s infinite;
+    box-shadow: 0 4px 15px rgba(238, 90, 36, 0.4);
+}
+
+/* ===== BET HISTORY & STATUS ===== */
+.bet-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.bet-history {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.bet-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    margin-bottom: 0.8rem;
+    border: 1px solid transparent;
+    transition: var(--transition);
+}
+
+.bet-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--gold);
+}
+
+.bet-status {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.status-win { background: var(--success); }
+.status-lose { background: var(--error); }
+.status-pending { background: var(--warning); }
+
+/* ===== LEADERBOARD ===== */
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.2rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    margin-bottom: 0.8rem;
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+.leaderboard-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--gold);
+    transform: translateX(5px);
+}
+
+.rank {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--gold);
+    min-width: 50px;
+    text-align: center;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-5px); }
+    60% { transform: translateY(-3px); }
+}
+
+@keyframes statusPulse {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes statusGlow {
+    0% { box-shadow: 0 4px 20px rgba(231, 76, 60, 0.6); }
+    100% { box-shadow: 0 8px 30px rgba(231, 76, 60, 0.9), 0 0 40px rgba(231, 76, 60, 0.4); }
+}
+
+@keyframes scrollAnimation {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-200px); }
+}
+
+@keyframes winningReveal {
+    0% { 
+        opacity: 0; 
+        transform: scale(0.3) rotateY(180deg);
+    }
+    50% { 
+        opacity: 0.8; 
+        transform: scale(1.3) rotateY(90deg);
+    }
+    100% { 
+        opacity: 1; 
+        transform: scale(1) rotateY(0deg);
+    }
+}
+
+@keyframes winningPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+@keyframes winningGlow {
+    0% { 
+        text-shadow: 
+            0 0 25px var(--gold), 
+            0 0 50px var(--gold);
+    }
+    100% { 
+        text-shadow: 
+            0 0 35px var(--gold), 
+            0 0 70px var(--gold),
+            0 0 100px rgba(255, 215, 0, 0.8);
+    }
+}
+
+@keyframes timerPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.08); opacity: 0.9; }
+}
+
+@keyframes balancePulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); color: var(--gold); }
+    100% { transform: scale(1); }
+}
+
+@keyframes jackpot {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.1); }
+    50% { transform: scale(1.25); box-shadow: 0 0 40px var(--gold); }
+    75% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 0.5rem;
+    }
+    
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem 0.5rem;
+    }
+    
+    .nav-links {
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .lottery-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin: 1rem;
+    }
+    
+    .lottery-box {
+        padding: 1.5rem;
+    }
+    
+    .clock {
+        font-size: 1.5rem;
+        margin: 0.5rem 0;
+    }
+    
+    .user-info {
+        flex-direction: column;
+        text-align: center;
+        margin: 0.5rem;
+    }
+    
+    .manual-draw {
+        padding: 1rem;
+        margin: 0.5rem 0;
+    }
+    
+    .draw-name {
+        font-size: 1rem;
+    }
+    
+    .draw-time {
+        font-size: 0.9rem;
+    }
+    
+    .scroll-container {
+        height: 140px;
+    }
+    
+    .scroll-numbers {
+        font-size: 3rem;
+        line-height: 140px;
+    }
+    
+    .scroll-numbers.stopped .winning-number {
+        font-size: 3.5rem;
+    }
+    
+    .history-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        text-align: left;
+    }
+    
+    .draw-stats {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        padding: 0.8rem;
+    }
+    
+    .stat-number {
+        font-size: 1.3rem;
+    }
+    
+    .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .form-group input, .form-group select {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* ===== TABLET RESPONSIVE ===== */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .lottery-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .lottery-box {
+        padding: 1.8rem;
+    }
+    
+    .scroll-container {
+        height: 170px;
+    }
+    
+    .scroll-numbers {
+        font-size: 3.5rem;
+        line-height: 170px;
+    }
+    
+    .scroll-numbers.stopped .winning-number {
+        font-size: 4rem;
+    }
+    
+    .draw-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ===== ACCESSIBILITY & PERFORMANCE ===== */
+@media (prefers-reduced-motion: reduce) {
+    .scroll-numbers,
+    .manual-draw::before,
+    .lottery-box::before,
+    .status-active,
+    .winning-number,
+    .countdown-timer,
+    .btn::before {
+        animation: none;
+    }
+    
+    .lottery-box:hover,
+    .history-item:hover,
+    .btn:hover {
+        transform: none;
+    }
+    
+    * {
+        transition: none !important;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --glass-bg: rgba(255, 255, 255, 0.2);
+        --glass-border: rgba(0, 0, 0, 0.1);
+    }
+    
+    body {
+        background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    }
+}
+
+/* ===== HIGH DPI DISPLAY OPTIMIZATION ===== */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .lottery-title,
+    .draw-name,
+    .winning-number,
+    .clock {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .manual-draw,
+    .lottery-box,
+    .history-box,
+    .navbar,
+    .notification {
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+        border: 2px solid #333 !important;
+    }
+    
+    .draw-status,
+    .vip-badge,
+    .bet-status {
+        background: #f5f5f5 !important;
+        color: black !important;
+        border: 1px solid #333 !important;
+    }
+    
+    .winning-number {
+        color: #333 !important;
+        text-shadow: none !important;
+    }
+    
+    .lottery-box::before,
+    .manual-draw::before {
+        display: none;
+    }
+}
+
+/* ===== FOCUS STYLES FOR ACCESSIBILITY ===== */
+.btn:focus,
+.nav-links a:focus,
+input:focus,
+select:focus {
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
+}
+
+/* ===== LOADING STATES ===== */
+.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* ===== UTILITY CLASSES ===== */
+.balance-animation {
+    animation: balancePulse 0.6s ease;
+}
+
+.jackpot-animation {
+    animation: jackpot 2.5s ease-in-out;
+}
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+
+.hidden { display: none; }
+.visible { display: block; }
+
+.opacity-50 { opacity: 0.5; }
+.opacity-75 { opacity: 0.75; }
+
+/* ===== CUSTOM SCROLLBAR ===== */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, var(--gold), #ff6b6b);
+    border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #ffed4e, #ff5252);
+}
+
+/* ===== ENHANCED HOVER EFFECTS ===== */
+.lottery-box:hover .lottery-title {
+    animation: titleGlow 2s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+    0%, 100% {
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    }
+    50% {
+        text-shadow: 
+            0 0 20px rgba(255, 215, 0, 0.8),
+            0 0 35px rgba(255, 215, 0, 0.6);
+    }
+}
+
+/* ===== SPECIAL EFFECTS ===== */
+.celebration-effect {
+    position: relative;
+    overflow: visible;
+}
+
+.celebration-effect::after {
+    content: '🎉';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    animation: celebrate 3s ease-out;
+    pointer-events: none;
+}
+
+@keyframes celebrate {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(0) scale(0.3);
+    }
+    20% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-20px) scale(1.2);
+    }
+    80% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-40px) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-60px) scale(0.8);
+    }
+}
+
+/* ===== DARK MODE SPECIFIC ADJUSTMENTS ===== */
+@media (prefers-color-scheme: dark) {
+    .manual-draw {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 215, 0, 0.8);
+    }
+    
+    .history-item {
+        background: rgba(255, 255, 255, 0.03);
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+    }
+    
+    .lottery-box {
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+        border-color: rgba(255, 215, 0, 0.4);
+    }
+    
+    .form-group input,
+    .form-group select {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .btn {
+        background: linear-gradient(45deg, #4a69bd, #5f27cd);
+    }
+}
+
+/* ===== END OF ENHANCED CSS ===== */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+        padding: 1rem;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+    }
+    
+    .notification {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        transform: translateY(-100px);
+    }
+    
+    .notification.show {
+        transform: translateY(0);
+    }
+    
+    .login-container, .betting-container, .balance-page, .leaderboard {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .bet-form {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .leaderboard-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .lottery-title {
+        font-size: 1.3rem;
+        letter-spacing: 1px;
+    }
+    
+    .scroll-container {
+        height: 120px;
+    }
+    
+    .scroll-numbers {
+        font-size: 2.5rem;
+        line-height: 120px;
+    }
+    
+    .scroll-numbers.stopped .winning-number {
+        font-size: 3rem;
+    }
+    
+    .draw-stats {
