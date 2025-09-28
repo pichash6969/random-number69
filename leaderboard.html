@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Golden Lottery</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h2 style="color: var(--gold); margin: 0;">🎰 Golden Lottery</h2>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="betting.html">Betting</a>
+                <a href="balance.html">Balance</a>
+                <a href="leaderboard.html" class="active">Leaderboard</a>
+                <a href="login.html" id="authLink">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- User Rank Overview -->
+        <div class="user-info" id="userRankInfo" style="display: none;">
+            <img src="https://via.placeholder.com/60x60/FFD700/000000?text=👤" alt="Profile" class="profile-image" id="profileImage">
+            <div class="user-details">
+                <h3 id="userName">Player</h3>
+                <p>Your Rank: #<span id="userRank">--</span> | Points: <span id="userPoints">0</span></p>
+                <span class="vip-badge vip1" id="vipBadge">VIP 1</span>
+            </div>
+            <div style="margin-left: auto; text-align: center;">
+                <div style="color: var(--gold); font-size: 2rem; font-weight: bold;" id="userTrophy">🏆</div>
+                <small style="color: rgba(255,255,255,0.8);">This Week</small>
+            </div>
+        </div>
+
+        <!-- Leaderboard Categories -->
+        <div style="margin: 2rem 0;">
+            <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                <button class="btn active-category" onclick="switchCategory('overall')" id="overallBtn">
+                    🏆 Overall
+                </button>
+                <button class="btn" onclick="switchCategory('weekly')" id="weeklyBtn">
+                    📅 This Week
+                </button>
+                <button class="btn" onclick="switchCategory('monthly')" id="monthlyBtn">
+                    📊 This Month
+                </button>
+                <button class="btn" onclick="switchCategory('winnings')" id="winningsBtn">
+                    💰 Top Earners
+                </button>
+            </div>
+        </div>
+
+        <!-- Top 3 Winners Podium -->
+        <div style="margin: 2rem 0;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; max-width: 800px; margin: 0 auto;">
+                <!-- 2nd Place -->
+                <div style="background: linear-gradient(135deg, #95a5a6, #7f8c8d); border-radius: 20px; padding: 2rem; text-align: center; order: 1;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🥈</div>
+                    <img src="https://via.placeholder.com/80x80/C0C0C0/000000?text=2" alt="2nd Place" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem; border: 3px solid #c0c0c0;">
+                    <h3 style="margin: 0.5rem 0; color: white;" id="second-name">Player_2</h3>
+                    <p style="color: rgba(255,255,255,0.8); margin: 0;" id="second-points">8,750 pts</p>
+                    <p style="color: #c0c0c0; font-size: 0.9rem; margin: 0.5rem 0;" id="second-winnings">₹87,500</p>
+                </div>
+
+                <!-- 1st Place -->
+                <div style="background: linear-gradient(135deg, #f1c40f, #f39c12); border-radius: 20px; padding: 2rem; text-align: center; order: 2; transform: scale(1.05);">
+                    <div style="font-size: 4rem; margin-bottom: 1rem; animation: bounce 2s infinite;">🏆</div>
+                    <img src="https://via.placeholder.com/100x100/FFD700/000000?text=1" alt="1st Place" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 1rem; border: 4px solid #FFD700; box-shadow: 0 0 20px rgba(255,215,0,0.5);">
+                    <h3 style="margin: 0.5rem 0; color: #000; font-size: 1.3rem;" id="first-name">Champion_King</h3>
+                    <p style="color: rgba(0,0,0,0.8); margin: 0; font-weight: bold;" id="first-points">15,420 pts</p>
+                    <p style="color: #d35400; font-size: 1.1rem; margin: 0.5rem 0; font-weight: bold;" id="first-winnings">₹1,54,200</p>
+                </div>
+
+                <!-- 3rd Place -->
+                <div style="background: linear-gradient(135deg, #cd7f32, #b8651b); border-radius: 20px; padding: 2rem; text-align: center; order: 3;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🥉</div>
+                    <img src="https://via.placeholder.com/80x80/CD7F32/000000?text=3" alt="3rd Place" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem; border: 3px solid #cd7f32;">
+                    <h3 style="margin: 0.5rem 0; color: white;" id="third-name">Lucky_Star</h3>
+                    <p style="color: rgba(255,255,255,0.8); margin: 0;" id="third-points">6,890 pts</p>
+                    <p style="color: #cd7f32; font-size: 0.9rem; margin: 0.5rem 0;" id="third-winnings">₹68,900</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Complete Leaderboard -->
+        <div class="leaderboard">
+            <h3 style="color: var(--gold); margin-bottom: 1.5rem; text-align: center;">
+                🏅 Complete Rankings
+            </h3>
+            
+            <!-- Search & Filter -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; justify-content: center;">
+                <input type="text" placeholder="🔍 Search player..." id="playerSearch" onkeyup="searchPlayers()" style="padding: 0.5rem 1rem; border-radius: 25px; border: none; background: rgba(255,255,255,0.1); color: white; width: 200px;">
+                
+                <select id="regionFilter" onchange="filterLeaderboard()" style="padding: 0.5rem; border-radius: 8px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3);">
+                    <option value="all">🌍 All Regions</option>
+                    <option value="india">🇮🇳 India</option>
+                    <option value="asia">🌏 Asia</option>
+                    <option value="global">🌐 Global</option>
+                </select>
+            </div>
+
+            <div id="leaderboardList">
+                <!-- Leaderboard entries will be loaded here -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn" onclick="loadMorePlayers()" id="loadMorePlayersBtn">
+                    Load More Players
+                </button>
+            </div>
+        </div>
+
+        <!-- Achievement Gallery -->
+        <div class="leaderboard">
+            <h3 style="color: var(--gold); margin-bottom: 1.5rem; text-align: center;">
+                🏆 Hall of Fame
+            </h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <!-- Biggest Win -->
+                <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); border-radius: 15px; padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">💎</div>
+                    <h4 style="color: white; margin-bottom: 1rem;">Biggest Single Win</h4>
+                    <p style="color: white; font-size: 1.5rem; margin: 0.5rem 0; font-weight: bold;">₹5,00,000</p>
+                    <p style="color: rgba(255,255,255,0.8); margin: 0;">by MegaWinner_Pro</p>
+                    <small style="color: rgba(255,255,255,0.6);">Weekend Special Draw</small>
+                </div>
+
+                <!-- Longest Streak -->
+                <div style="background: linear-gradient(135deg, #27ae60, #229954); border-radius: 15px; padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🔥</div>
+                    <h4 style="color: white; margin-bottom: 1rem;">Longest Win Streak</h4>
+                    <p style="color: white; font-size: 1.5rem; margin: 0.5rem 0; font-weight: bold;">23 Wins</p>
+                    <p style="color: rgba(255,255,255,0.8); margin: 0;">by StreakMaster</p>
+                    <small style="color: rgba(255,255,255,0.6);">Still Active!</small>
+                </div>
+
+                <!-- Most Active Player -->
+                <div style="background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 15px; padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">⚡</div>
+                    <h4 style="color: white; margin-bottom: 1rem;">Most Active Player</h4>
+                    <p style="color: white; font-size: 1.5rem; margin: 0.5rem 0; font-weight: bold;">2,847 Bets</p>
+                    <p style="color: rgba(255,255,255,0.8); margin: 0;">by NonStop_Player</p>
+                    <small style="color: rgba(255,255,255,0.6);">This month</small>
+                </div>
+
+                <!-- Highest VIP -->
+                <div style="background: linear-gradient(135deg, #9b59b6, #8e44ad); border-radius: 15px; padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">👑</div>
+                    <h4 style="color: white; margin-bottom: 1rem;">Highest VIP Level</h4>
+                    <p style="color: white; font-size: 1.5rem; margin: 0.5rem 0; font-weight: bold;">VIP Diamond</p>
+                    <p style="color: rgba(255,255,255,0.8); margin: 0;">by VIP_Emperor</p>
+                    <small style="color: rgba(255,255,255,0.6);">Level 10 Achievement</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly Tournament -->
+        <div class="leaderboard">
+            <h3 style="color: var(--gold); margin-bottom: 1.5rem; text-align: center;">
+                🎯 Weekly Tournament
+            </h3>
+            
+            <div style="background: linear-gradient(135deg, rgba(231,76,60,0.2), rgba(192,57,43,0.1)); border-radius: 15px; padding: 2rem; margin-bottom: 2rem; border: 2px solid rgba(231,76,60,0.3);">
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <h4 style="color: #e74c3c; margin-bottom: 0.5rem;">🏆 Grand Prize Tournament</h4>
+                    <p style="color: white; margin-bottom: 1rem;">Compete for the weekly jackpot of ₹10,00,000!</p>
+                    <div style="background: rgba(0,0,0,0.3); border-radius: 10px; padding: 1rem; display: inline-block;">
+                        <p style="color: var(--gold); font-size: 1.2rem; margin: 0;">Time Remaining: <span id="tournamentTimer">3d 14h 22m</span></p>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                        <p style="color: var(--gold); font-size: 1.5rem; margin: 0; font-weight: bold;">₹10,00,000</p>
+                        <small style="color: rgba(255,255,255,0.8);">1st Prize</small>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                        <p style="color: #c0c0c0; font-size: 1.2rem; margin: 0; font-weight: bold;">₹3,00,000</p>
+                        <small style="color: rgba(255,255,255,0.8);">2nd Prize</small>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                        <p style="color: #cd7f32; font-size: 1.2rem; margin: 0; font-weight: bold;">₹1,00,000</p>
+                        <small style="color: rgba(255,255,255,0.8);">3rd Prize</small>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                        <p style="color: white; font-size: 1rem; margin: 0; font-weight: bold;">₹2,00,000</p>
+                        <small style="color: rgba(255,255,255,0.8);">Total Prizes</small>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <button class="btn" onclick="joinTournament()" style="background: linear-gradient(45deg, #e74c3c, #c0392b); font-size: 1.1rem; padding: 1rem 2rem;">
+                        🎯 Join Tournament - ₹100
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="leaderboard">
+            <h3 style="color: var(--gold); margin-bottom: 1.5rem; text-align: center;">
+                📊 Global Statistics
+            </h3>
+            
+            <div class="draw-stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalPlayers">12,847</span>
+                    <span class="stat-label">Total Players</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="prizesDistributed">₹2.5M</span>
+                    <span class="stat-label">Prizes This Month</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="activeCompetitions">8</span>
+                    <span class="stat-label">Active Tournaments</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="biggestJackpot">₹10M</span>
+                    <span class="stat-label">Biggest Jackpot</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div class="notification" id="notification">
+        <div id="notificationContent"></div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    <script src="user.js"></script>
+    <script>
+        let currentCategory = 'overall';
+        let leaderboardData = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeLeaderboard();
+        });
+
+        function initializeLeaderboard() {
+            if (isUserLoggedIn()) {
+                loadUserRankInfo();
+            }
+            
+            generateLeaderboardData();
+            displayLeaderboard();
+            updateTournamentTimer();
+            
+            // Update tournament timer every minute
+            setInterval(updateTournamentTimer, 60000);
+        }
+
+        function loadUserRankInfo() {
+            const userData = getCurrentUser();
+            if (!userData) return;
+
+            document.getElementById('userRankInfo').style.display = 'flex';
+            document.getElementById('userName').textContent = userData.name;
+            
+            // Calculate user rank and points (simulated)
+            const userRank = Math.floor(Math.random() * 100) + 1;
+            const userPoints = userData.balance * 0.1 + Math.floor(Math.random() * 1000);
+            
+            document.getElementById('userRank').textContent = userRank;
+            document.getElementById('userPoints').textContent = Math.floor(userPoints);
+            document.getElementById('vipBadge').textContent = `VIP ${userData.vipLevel}`;
+            document.getElementById('vipBadge').className = `vip-badge vip${userData.vipLevel}`;
+            
+            // Set trophy based on rank
+            let trophy = '🏆';
+            if (userRank <= 3) trophy = '🥇';
+            else if (userRank <= 10) trophy = '🥈';
+            else if (userRank <= 50) trophy = '🥉';
+            else trophy = '🏅';
+            
+            document.getElementById('userTrophy').textContent = trophy;
+        }
+
+        function switchCategory(category) {
+            currentCategory = category;
+            
+            // Update button states
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.classList.remove('active-category');
+            });
+            document.getElementById(category + 'Btn').classList.add('active-category');
+            
+            // Regenerate data for new category
+            generateLeaderboardData();
+            displayLeaderboard();
+            updatePodium();
+        }
+
+        function generateLeaderboardData() {
+            leaderboardData = [];
+            const playerNames = [
+                'Champion_King', 'Lucky_Star', 'Player_Pro', 'MegaWinner', 'GoldRush_Master',
+                'VIP_Emperor', 'StreakMaster', 'NonStop_Player', 'Fortune_Hunter', 'Jackpot_King',
+                'Winner_Legend', 'Casino_Pro', 'Lucky_Dragon', 'Golden_Eagle', 'Money_Maker',
+                'Bet_Champion', 'Prize_Hunter', 'Lucky_Phoenix', 'Golden_Tiger', 'Spin_Master',
+                'Draw_King', 'Lottery_Lord', 'Chance_Taker', 'Risk_Reward', 'Big_Winner',
+                'Smart_Player', 'Game_Master', 'Luck_Factor', 'Win_Streak', 'Prize_Collector'
+            ];
+
+            for (let i = 0; i < 100; i++) {
+                const basePoints = Math.floor(Math.random() * 15000) + 1000;
+                const winnings = basePoints * 10 + Math.floor(Math.random() * 50000);
+                
+                leaderboardData.push({
+                    rank: i + 1,
+                    name: i < playerNames.length ? playerNames[i] : `Player_${Math.floor(Math.random() * 9999)}`,
+                    points: basePoints,
+                    winnings: winnings,
+                    vipLevel: Math.floor(Math.random() * 5) + 1,
+                    region: ['india', 'asia', 'global'][Math.floor(Math.random() * 3)],
+                    avatar: `https://via.placeholder.com/50x50/FFD700/000000?text=${i + 1}`,
+                    streak: Math.floor(Math.random() * 20),
+                    totalBets: Math.floor(Math.random() * 1000) + 100
+                });
+            }
+
+            // Sort by points (descending)
+            leaderboardData.sort((a, b) => b.points - a.points);
+            
+            // Update ranks
+            leaderboardData.forEach((player, index) => {
+                player.rank = index + 1;
+            });
+        }
+
+        function displayLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboardList');
+            const playersToShow = Math.min(50, leaderboardData.length);
+            
+            leaderboardList.innerHTML = '';
+            
+            for (let i = 0; i < playersToShow; i++) {
+                const player = leaderboardData[i];
+                const item = createLeaderboardItem(player);
+                leaderboardList.appendChild(item);
+            }
+        }
+
+        function createLeaderboardItem(player) {
+            const item = document.createElement('div');
+            item.className = 'leaderboard-item';
+            
+            let rankIcon = player.rank;
+            let rankColor = 'var(--gold)';
+            
+            if (player.rank === 1) {
+                rankIcon = '🥇';
+                rankColor = '#FFD700';
+            } else if (player.rank === 2) {
+                rankIcon = '🥈';
+                rankColor = '#C0C0C0';
+            } else if (player.rank === 3) {
+                rankIcon = '🥉';
+                rankColor = '#CD7F32';
+            }
+            
+            item.innerHTML = `
+                <div class="rank" style="color: ${rankColor};">${rankIcon}</div>
+                <img src="${player.avatar}" alt="Player" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--gold);">
+                <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
+                        <strong style="color: white; font-size: 1.1rem;">${player.name}</strong>
+                        <span class="vip-badge vip${player.vipLevel}" style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">VIP ${player.vipLevel}</span>
+                    </div>
+                    <div style="display: flex; gap: 1rem; font-size: 0.9rem; color: rgba(255,255,255,0.8);">
+                        <span>🎯 ${player.points.toLocaleString()} pts</span>
+                        <span>💰 ₹${player.winnings.toLocaleString()}</span>
+                        <span>🔥 ${player.streak} streak</span>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="color: var(--gold); font-size: 1.2rem; font-weight: bold;">#${player.rank}</div>
+                    <small style="color: rgba(255,255,255,0.6);">${getTrendIcon(player.rank)}</small>
+                </div>
+            `;
+            
+            return item;
+        }
+
+        function getTrendIcon(rank) {
+            if (rank <= 10) return '🔥 Hot';
+            if (rank <= 30) return '📈 Rising';
+            return '➡️ Stable';
+        }
+
+        function updatePodium() {
+            if (leaderboardData.length >= 3) {
+                // Update podium with top 3 players
+                const first = leaderboardData[0];
+                const second = leaderboardData[1];
+                const third = leaderboardData[2];
+                
+                document.getElementById('first-name').textContent = first.name;
+                document.getElementById('first-points').textContent = first.points.toLocaleString() + ' pts';
+                document.getElementById('first-winnings').textContent = '₹' + first.winnings.toLocaleString();
+                
+                document.getElementById('second-name').textContent = second.name;
+                document.getElementById('second-points').textContent = second.points.toLocaleString() + ' pts';
+                document.getElementById('second-winnings').textContent = '₹' + second.winnings.toLocaleString();
+                
+                document.getElementById('third-name').textContent = third.name;
+                document.getElementById('third-points').textContent = third.points.toLocaleString() + ' pts';
+                document.getElementById('third-winnings').textContent = '₹' + third.winnings.toLocaleString();
+            }
+        }
+
+        function searchPlayers() {
+            const searchTerm = document.getElementById('playerSearch').value.toLowerCase();
+            const filtered = leaderboardData.filter(player => 
+                player.name.toLowerCase().includes(searchTerm)
+            );
+            
+            displayFilteredLeaderboard(filtered);
+        }
+
+        function filterLeaderboard() {
+            const regionFilter = document.getElementById('regionFilter').value;
+            let filtered = leaderboardData;
+            
+            if (regionFilter !== 'all') {
+                filtered = leaderboardData.filter(player => player.region === regionFilter);
+            }
+            
+            displayFilteredLeaderboard(filtered);
+        }
+
+        function displayFilteredLeaderboard(data) {
+            const leaderboardList = document.getElementById('leaderboardList');
+            leaderboardList.innerHTML = '';
+            
+            const playersToShow = Math.min(50, data.length);
+            
+            for (let i = 0; i < playersToShow; i++) {
+                const item = createLeaderboardItem(data[i]);
+                leaderboardList.appendChild(item);
+            }
+            
+            if (data.length === 0) {
+                leaderboardList.innerHTML = '<div style="text-align: center; padding: 2rem; color: rgba(255,255,255,0.6);">No players found matching your criteria.</div>';
+            }
+        }
+
+        function loadMorePlayers() {
+            showNotification('Loading more players...', 'info');
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                // Generate more players
+                const currentLength = leaderboardData.length;
+                for (let i = 0; i < 25; i++) {
+                    const newRank = currentLength + i + 1;
+                    leaderboardData.push({
+                        rank: newRank,
+                        name: `Player_${Math.floor(Math.random() * 9999)}`,
+                        points: Math.floor(Math.random() * 5000) + 100,
+                        winnings: Math.floor(Math.random() * 50000) + 1000,
+                        vipLevel: Math.floor(Math.random() * 3) + 1,
+                        region: ['india', 'asia', 'global'][Math.floor(Math.random() * 3)],
+                        avatar: `https://via.placeholder.com/50x50/FFD700/000000?text=${newRank}`,
+                        streak: Math.floor(Math.random() * 10),
+                        totalBets: Math.floor(Math.random() * 500) + 50
+                    });
+                }
+                
+                displayLeaderboard();
+                showNotification('✅ More players loaded!', 'success');
+            }, 1000);
+        }
+
+        function joinTournament() {
+            if (!isUserLoggedIn()) {
+                showNotification('Please login to join tournaments!', 'info');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+                return;
+            }
+            
+            const userBalance = getUserBalance();
+            const entryFee = 100;
+            
+            if (userBalance < entryFee) {
+                showNotification('Insufficient balance! Need ₹100 to join tournament.', 'error');
+                setTimeout(() => {
+                    window.location.href = 'balance.html';
+                }, 2000);
+                return;
+            }
+            
+            updateUserBalance(userBalance - entryFee);
+            showNotification('🎯 Successfully joined the tournament! Good luck!', 'success');
+            
+            // Disable join button
+            const joinBtn = event.target;
+            joinBtn.textContent = '✅ Tournament Joined';
+            joinBtn.disabled = true;
+            joinBtn.style.opacity = '0.7';
+        }
+
+        function updateTournamentTimer() {
+            // Calculate time remaining (example: 3 days, 14 hours, 22 minutes)
+            const now = new Date();
+            const nextSunday = new Date();
+            nextSunday.setDate(now.getDate() + (7 - now.getDay()));
+            nextSunday.setHours(20, 0, 0, 0); // 8 PM Sunday
+            
+            const timeDiff = nextSunday - now;
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            const timerElement = document.getElementById('tournamentTimer');
+            if (timerElement) {
+                timerElement.textContent = `${days}d ${hours}h ${minutes}m`;
+            }
+        }
+
+        // Initialize podium on load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(updatePodium, 500);
+        });
+    </script>
+
+    <style>
+        .active-category {
+            background: linear-gradient(45deg, var(--gold), #ffed4e) !important;
+            color: #000 !important;
+            border: 2px solid var(--gold);
+        }
+        
+        .leaderboard-item:nth-child(-n+3) {
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05));
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        
+        .leaderboard-item:nth-child(1) {
+            background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,215,0,0.1));
+            border: 2px solid rgba(255,215,0,0.5);
+        }
+        
+        @keyframes podiumGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,0.3); }
+            50% { box-shadow: 0 0 40px rgba(255,215,0,0.6); }
+        }
+        
+        .user-info {
+            animation: slideInUp 0.6s ease-out;
+        }
+        
+        .leaderboard-item {
+            animation: slideInLeft 0.3s ease-out;
+        }
+        
+        .leaderboard-item:nth-child(1) { animation-delay: 0.1s; }
+        .leaderboard-item:nth-child(2) { animation-delay: 0.2s; }
+        .leaderboard-item:nth-child(3) { animation-delay: 0.3s; }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</body>
+</html>
