@@ -1,4 +1,641 @@
-<!DOCTYPE html>
+<div style="background: linear-gradient(45deg, var(--gold), #ffed4e); padding: 2rem; border-radius: 15px; color: #000; margin-bottom: 1rem;">
+                    <h3 style="margin: 0; font-size: 1.2rem;">Available Balance</h3>
+                    <h1 style="margin: 0.5rem 0; font-size: 3rem;" id="currentBalance">₹0</h1>
+                    <p style="margin: 0; opacity: 0.8;">Last updated: <span id="lastUpdated">--</span></p>
+                </div>
+                
+                <!-- Balance Stats -->
+                <div class="draw-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalDeposits">₹0</span>
+                        <span class="stat-label">Total Deposits</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalWithdrawals">₹0</span>
+                        <span class="stat-label">Total Withdrawals</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalWinnings">₹0</span>
+                        <span class="stat-label">Total Winnings</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="netProfit">₹0</span>
+                        <span class="stat-label">Net Profit</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                <button class="btn" onclick="showAddMoneyModal()" style="background: linear-gradient(45deg, #27ae60, #229954); padding: 1.5rem;">
+                    💳 Add Money
+                </button>
+                <button class="btn" onclick="showWithdrawModal()" style="background: linear-gradient(45deg, #e74c3c, #c0392b); padding: 1.5rem;">
+                    🏦 Withdraw
+                </button>
+                <button class="btn" onclick="showTransferModal()" style="background: linear-gradient(45deg, #3498db, #2980b9); padding: 1.5rem;">
+                    🔄 Transfer
+                </button>
+                <button class="btn" onclick="showBonusModal()" style="background: linear-gradient(45deg, #f39c12, #e67e22); padding: 1.5rem;">
+                    🎁 Get Bonus
+                </button>
+            </div>
+        </div>
+
+        <!-- Add Money Section -->
+        <div class="balance-page" id="addMoneySection">
+            <h3 style="color: var(--gold); margin-bottom: 1.5rem; text-align: center;">💳 Add Money to Account</h3>
+            
+            <!-- Quick Amount Selection -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                <button class="btn" onclick="selectAmount(100)" style="background: rgba(255,255,255,0.1);">₹100</button>
+                <button class="btn" onclick="selectAmount(500)" style="background: rgba(255,255,255,0.1);">₹500</button>
+                <button class="btn" onclick="selectAmount(1000)" style="background: rgba(255,255,255,0.1);">₹1,000</button>
+                <button class="btn" onclick="selectAmount(2000)" style="background: rgba(255,255,255,0.1);">₹2,000</button>
+                <button class="btn" onclick="selectAmount(5000)" style="background: rgba(255,255,255,0.1);">₹5,000</button>
+                <button class="btn" onclick="selectAmount(10000)" style="background: rgba(255,255,255,0.1);">₹10,000</button>
+            </div>
+
+            <form id="addMoneyForm">
+                <div class="form-group">
+                    <label for="depositAmount">💰 Amount to Add</label>
+                    <input type="number" id="depositAmount" placeholder="Enter amount (Min: ₹50)" min="50" max="100000">
+                    <small style="color: rgba(255,255,255,0.7);">Minimum: ₹50 | Maximum: ₹1,00,000</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentMethod">💳 Payment Method</label>
+                    <select id="paymentMethod" onchange="updatePaymentDetails()">
+                        <option value="">Select payment method</option>
+                        <option value="upi">UPI (Google Pay, PhonePe, Paytm)</option>
+                        <option value="card">Debit/Credit Card</option>
+                        <option value="netbanking">Net Banking</option>
+                        <option value="wallet">Digital Wallet</option>
+                    </select>
+                </div>
+
+                <div id="paymentDetails" style="display: none;">
+                    <!-- UPI Details -->
+                    <div id="upiDetails" style="display: none;">
+                        <div class="form-group">
+                            <label for="upiId">📱 UPI ID</label>
+                            <input type="text" id="upiId" placeholder="yourname@upi">
+                        </div>
+                    </div>
+
+                    <!-- Card Details -->
+                    <div id="cardDetails" style="display: none;">
+                        <div class="form-group">
+                            <label for="cardNumber">💳 Card Number</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label for="expiryDate">📅 Expiry Date</label>
+                                <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">🔒 CVV</label>
+                                <input type="text" id="cvv" placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Net Banking Details -->
+                    <div id="netbankingDetails" style="display: none;">
+                        <div class="form-group">
+                            <label for="bankName">🏦 Select Bank</label>
+                            <select id="bankName">
+                                <option value="">Choose your bank</option>
+                                <option value="sbi">State Bank of India</option>
+                                <option value="hdfc">HDFC Bank</option>
+                                <option value="icici">ICICI Bank</option>
+                                <option value="axis">Axis Bank</option>
+                                <option value="pnb">Punjab National Bank</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="checkbox" id="agreeTerms" style="width: auto;" required>
+                        I agree to the payment terms and conditions
+                    </label>
+                </div>
+
+                <button type="submit" class="btn" style="width: 100%; background: linear-gradient(45deg, #27ae60, #229954);">
+                    💳 Add Money Now
+                </button>
+            </form>
+
+            <!-- Offer Banner -->
+            <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(45deg, #e74c3c, #c0392b); border-radius: 15px; text-align: center;">
+                <h4 style="margin: 0 0 0.5rem 0; color: white;">🎉 Special Offer!</h4>
+                <p style="margin: 0; color: white;">Add ₹1000 or more and get 10% bonus instantly!</p>
+            </div>
+        </div>
+
+        <!-- Withdraw Money Section -->
+        <div class="balance-page" id="withdrawSection">
+            <h3 style="color: var(--gold); margin-bottom: 1.5rem; text-align: center;">🏦 Withdraw Money</h3>
+            
+            <div style="background: rgba(241,196,15,0.1); padding: 1rem; border-radius: 10px; border: 1px solid rgba(241,196,15,0.3); margin-bottom: 2rem;">
+                <p style="margin: 0; color: #f1c40f; text-align: center;">
+                    ⚠️ Minimum withdrawal: ₹500 | Maximum: ₹50,000 per day
+                </p>
+            </div>
+
+            <form id="withdrawForm">
+                <div class="form-group">
+                    <label for="withdrawAmount">💰 Amount to Withdraw</label>
+                    <input type="number" id="withdrawAmount" placeholder="Enter amount" min="500" max="50000">
+                    <small style="color: rgba(255,255,255,0.7);">Available Balance: ₹<span id="availableBalance">0</span></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="withdrawMethod">🏦 Withdrawal Method</label>
+                    <select id="withdrawMethod" onchange="updateWithdrawDetails()">
+                        <option value="">Select withdrawal method</option>
+                        <option value="bank">Bank Transfer</option>
+                        <option value="upi">UPI Transfer</option>
+                        <option value="wallet">Digital Wallet</option>
+                    </select>
+                </div>
+
+                <div id="withdrawDetails" style="display: none;">
+                    <!-- Bank Details -->
+                    <div id="bankDetails" style="display: none;">
+                        <div class="form-group">
+                            <label for="accountNumber">🏦 Account Number</label>
+                            <input type="text" id="accountNumber" placeholder="Enter account number">
+                        </div>
+                        <div class="form-group">
+                            <label for="ifscCode">🏛️ IFSC Code</label>
+                            <input type="text" id="ifscCode" placeholder="Enter IFSC code">
+                        </div>
+                        <div class="form-group">
+                            <label for="accountName">👤 Account Holder Name</label>
+                            <input type="text" id="accountName" placeholder="As per bank records">
+                        </div>
+                    </div>
+
+                    <!-- UPI Details for withdrawal -->
+                    <div id="withdrawUpiDetails" style="display: none;">
+                        <div class="form-group">
+                            <label for="withdrawUpiId">📱 UPI ID</label>
+                            <input type="text" id="withdrawUpiId" placeholder="yourname@upi">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="withdrawReason">📝 Reason for Withdrawal</label>
+                    <select id="withdrawReason">
+                        <option value="personal">Personal Use</option>
+                        <option value="emergency">Emergency</option>
+                        <option value="investment">Investment</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn" style="width: 100%; background: linear-gradient(45deg, #e74c3c, #c0392b);">
+                    🏦 Request Withdrawal
+                </button>
+            </form>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(52,152,219,0.1); border-radius: 10px;">
+                <p style="margin: 0; color: #3498db; font-size: 0.9rem; text-align: center;">
+                    💡 Withdrawals are processed within 24-48 hours on working days
+                </p>
+            </div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="balance-page">
+            <h3 style="color: var(--gold); margin-bottom: 1.5rem; text-align: center;">📊 Transaction History</h3>
+            
+            <!-- Filter Options -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; justify-content: center;">
+                <select id="transactionFilter" onchange="filterTransactions()" style="padding: 0.5rem; border-radius: 8px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3);">
+                    <option value="all">All Transactions</option>
+                    <option value="deposit">Deposits</option>
+                    <option value="withdrawal">Withdrawals</option>
+                    <option value="win">Winnings</option>
+                    <option value="bet">Bets</option>
+                </select>
+                
+                <select id="timeFilter" onchange="filterTransactions()" style="padding: 0.5rem; border-radius: 8px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3);">
+                    <option value="all">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                </select>
+            </div>
+
+            <div class="bet-history" id="transactionHistory">
+                <!-- Transaction history will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Bonus & Rewards -->
+        <div class="balance-page">
+            <h3 style="color: var(--gold); margin-bottom: 1.5rem; text-align: center;">🎁 Bonus & Rewards</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                <!-- Daily Bonus -->
+                <div style="padding: 1.5rem; background: rgba(39,174,96,0.1); border-radius: 15px; border: 2px solid rgba(39,174,96,0.3);">
+                    <h4 style="color: #27ae60; margin-bottom: 1rem; text-align: center;">🌅 Daily Login Bonus</h4>
+                    <div style="text-align: center;">
+                        <p style="color: white; margin: 0.5rem 0;">Streak: <span id="loginStreak">0</span> days</p>
+                        <p style="color: var(--gold); font-size: 1.2rem; margin: 0.5rem 0;">Today: ₹<span id="dailyBonus">25</span></p>
+                        <button class="btn" onclick="claimDailyBonus()" id="dailyBonusBtn" style="background: #27ae60; margin-top: 1rem;">
+                            Claim Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Referral Bonus -->
+                <div style="padding: 1.5rem; background: rgba(155,89,182,0.1); border-radius: 15px; border: 2px solid rgba(155,89,182,0.3);">
+                    <h4 style="color: #9b59b6; margin-bottom: 1rem; text-align: center;">👥 Referral Bonus</h4>
+                    <div style="text-align: center;">
+                        <p style="color: white; margin: 0.5rem 0;">Your Code: <span id="referralCode" style="color: var(--gold);">REF123456</span></p>
+                        <p style="color: white; margin: 0.5rem 0;">Referrals: <span id="totalReferrals">0</span></p>
+                        <button class="btn" onclick="shareReferralCode()" style="background: #9b59b6; margin-top: 1rem;">
+                            Share & Earn
+                        </button>
+                    </div>
+                </div>
+
+                <!-- VIP Rewards -->
+                <div style="padding: 1.5rem; background: rgba(241,196,15,0.1); border-radius: 15px; border: 2px solid rgba(241,196,15,0.3);">
+                    <h4 style="color: #f1c40f; margin-bottom: 1rem; text-align: center;">👑 VIP Rewards</h4>
+                    <div style="text-align: center;">
+                        <p style="color: white; margin: 0.5rem 0;">Current Level: <span id="vipLevel">VIP 1</span></p>
+                        <p style="color: white; margin: 0.5rem 0;">Next Reward: <span id="nextReward">₹100</span></p>
+                        <div style="background: rgba(0,0,0,0.3); border-radius: 10px; padding: 0.5rem; margin: 1rem 0;">
+                            <div style="background: var(--gold); height: 8px; border-radius: 4px; width: 60%;"></div>
+                        </div>
+                        <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">60% to next level</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div class="notification" id="notification">
+        <div id="notificationContent"></div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    <script src="user.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeBalancePage();
+        });
+
+        function initializeBalancePage() {
+            if (!isUserLoggedIn()) {
+                showNotification('Please login to view balance!', 'info');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+                return;
+            }
+
+            loadBalanceData();
+            loadTransactionHistory();
+            updateBonusInfo();
+            
+            setupFormHandlers();
+        }
+
+        function loadBalanceData() {
+            const userData = getCurrentUser();
+            if (!userData) return;
+
+            document.getElementById('currentBalance').textContent = '₹' + userData.balance.toLocaleString();
+            document.getElementById('availableBalance').textContent = userData.balance.toLocaleString();
+            document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
+
+            // Load balance statistics
+            const stats = getBalanceStatistics();
+            document.getElementById('totalDeposits').textContent = '₹' + stats.totalDeposits.toLocaleString();
+            document.getElementById('totalWithdrawals').textContent = '₹' + stats.totalWithdrawals.toLocaleString();
+            document.getElementById('totalWinnings').textContent = '₹' + stats.totalWinnings.toLocaleString();
+            document.getElementById('netProfit').textContent = '₹' + stats.netProfit.toLocaleString();
+        }
+
+        function setupFormHandlers() {
+            // Add money form
+            document.getElementById('addMoneyForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                processAddMoney();
+            });
+
+            // Withdraw form
+            document.getElementById('withdrawForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                processWithdrawal();
+            });
+
+            // Card number formatting
+            document.getElementById('cardNumber').addEventListener('input', function(e) {
+                e.target.value = e.target.value.replace(/\s+/g, '').replace(/(\d{4})/g, '$1 ').trim();
+            });
+
+            // Expiry date formatting
+            document.getElementById('expiryDate').addEventListener('input', function(e) {
+                e.target.value = e.target.value.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1/$2');
+            });
+        }
+
+        function selectAmount(amount) {
+            document.getElementById('depositAmount').value = amount;
+            document.getElementById('depositAmount').focus();
+        }
+
+        function updatePaymentDetails() {
+            const method = document.getElementById('paymentMethod').value;
+            const detailsDiv = document.getElementById('paymentDetails');
+            
+            // Hide all details first
+            document.getElementById('upiDetails').style.display = 'none';
+            document.getElementById('cardDetails').style.display = 'none';
+            document.getElementById('netbankingDetails').style.display = 'none';
+            
+            if (method) {
+                detailsDiv.style.display = 'block';
+                document.getElementById(method + 'Details').style.display = 'block';
+            } else {
+                detailsDiv.style.display = 'none';
+            }
+        }
+
+        function updateWithdrawDetails() {
+            const method = document.getElementById('withdrawMethod').value;
+            const detailsDiv = document.getElementById('withdrawDetails');
+            
+            // Hide all details first
+            document.getElementById('bankDetails').style.display = 'none';
+            document.getElementById('withdrawUpiDetails').style.display = 'none';
+            
+            if (method) {
+                detailsDiv.style.display = 'block';
+                if (method === 'bank') {
+                    document.getElementById('bankDetails').style.display = 'block';
+                } else if (method === 'upi') {
+                    document.getElementById('withdrawUpiDetails').style.display = 'block';
+                }
+            } else {
+                detailsDiv.style.display = 'none';
+            }
+        }
+
+        function processAddMoney() {
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+
+            if (!amount || amount < 50) {
+                showNotification('Minimum deposit amount is ₹50!', 'error');
+                return;
+            }
+
+            if (!paymentMethod) {
+                showNotification('Please select a payment method!', 'error');
+                return;
+            }
+
+            if (!agreeTerms) {
+                showNotification('Please agree to the terms and conditions!', 'error');
+                return;
+            }
+
+            // Validate payment details based on method
+            if (!validatePaymentDetails(paymentMethod)) return;
+
+            // Show processing message
+            const submitBtn = document.querySelector('#addMoneyForm button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '🔄 Processing...';
+            submitBtn.disabled = true;
+
+            // Simulate payment processing
+            setTimeout(() => {
+                const bonus = amount >= 1000 ? Math.floor(amount * 0.1) : 0;
+                const totalAmount = amount + bonus;
+                
+                const currentBalance = getUserBalance();
+                updateUserBalance(currentBalance + totalAmount);
+                
+                // Add transaction record
+                addTransaction({
+                    type: 'deposit',
+                    amount: totalAmount,
+                    method: paymentMethod,
+                    status: 'completed',
+                    bonus: bonus,
+                    timestamp: new Date().toISOString()
+                });
+
+                let message = `💰 Successfully added ₹${amount.toLocaleString()} to your account!`;
+                if (bonus > 0) {
+                    message += ` Plus ₹${bonus.toLocaleString()} bonus!`;
+                }
+
+                showNotification(message, 'success');
+                
+                // Reset form
+                document.getElementById('addMoneyForm').reset();
+                document.getElementById('paymentDetails').style.display = 'none';
+                
+                // Update displays
+                loadBalanceData();
+                loadTransactionHistory();
+                
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        }
+
+        function processWithdrawal() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            const withdrawMethod = document.getElementById('withdrawMethod').value;
+            const currentBalance = getUserBalance();
+
+            if (!amount || amount < 500) {
+                showNotification('Minimum withdrawal amount is ₹500!', 'error');
+                return;
+            }
+
+            if (amount > currentBalance) {
+                showNotification('Insufficient balance!', 'error');
+                return;
+            }
+
+            if (!withdrawMethod) {
+                showNotification('Please select a withdrawal method!', 'error');
+                return;
+            }
+
+            if (!validateWithdrawDetails(withdrawMethod)) return;
+
+            // Show processing message
+            const submitBtn = document.querySelector('#withdrawForm button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '🔄 Processing...';
+            submitBtn.disabled = true;
+
+            // Simulate withdrawal processing
+            setTimeout(() => {
+                updateUserBalance(currentBalance - amount);
+                
+                // Add transaction record
+                addTransaction({
+                    type: 'withdrawal',
+                    amount: amount,
+                    method: withdrawMethod,
+                    status: 'pending',
+                    timestamp: new Date().toISOString()
+                });
+
+                showNotification(`🏦 Withdrawal request of ₹${amount.toLocaleString()} submitted successfully! It will be processed within 24-48 hours.`, 'success');
+                
+                // Reset form
+                document.getElementById('withdrawForm').reset();
+                document.getElementById('withdrawDetails').style.display = 'none';
+                
+                // Update displays
+                loadBalanceData();
+                loadTransactionHistory();
+                
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        }
+
+        function validatePaymentDetails(method) {
+            switch(method) {
+                case 'upi':
+                    const upiId = document.getElementById('upiId').value;
+                    if (!upiId || !upiId.includes('@')) {
+                        showNotification('Please enter a valid UPI ID!', 'error');
+                        return false;
+                    }
+                    break;
+                case 'card':
+                    const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+                    const expiryDate = document.getElementById('expiryDate').value;
+                    const cvv = document.getElementById('cvv').value;
+                    
+                    if (!cardNumber || cardNumber.length !== 16) {
+                        showNotification('Please enter a valid 16-digit card number!', 'error');
+                        return false;
+                    }
+                    if (!expiryDate || !/^\d{2}\/\d{2}$/.test(expiryDate)) {
+                        showNotification('Please enter expiry date in MM/YY format!', 'error');
+                        return false;
+                    }
+                    if (!cvv || cvv.length < 3) {
+                        showNotification('Please enter a valid CVV!', 'error');
+                        return false;
+                    }
+                    break;
+                case 'netbanking':
+                    const bankName = document.getElementById('bankName').value;
+                    if (!bankName) {
+                        showNotification('Please select your bank!', 'error');
+                        return false;
+                    }
+                    break;
+            }
+            return true;
+        }
+
+        function validateWithdrawDetails(method) {
+            switch(method) {
+                case 'bank':
+                    const accountNumber = document.getElementById('accountNumber').value;
+                    const ifscCode = document.getElementById('ifscCode').value;
+                    const accountName = document.getElementById('accountName').value;
+                    
+                    if (!accountNumber || accountNumber.length < 9) {
+                        showNotification('Please enter a valid account number!', 'error');
+                        return false;
+                    }
+                    if (!ifscCode || ifscCode.length !== 11) {
+                        showNotification('Please enter a valid IFSC code!', 'error');
+                        return false;
+                    }
+                    if (!accountName) {
+                        showNotification('Please enter account holder name!', 'error');
+                        return false;
+                    }
+                    break;
+                case 'upi':
+                    const withdrawUpiId = document.getElementById('withdrawUpiId').value;
+                    if (!withdrawUpiId || !withdrawUpiId.includes('@')) {
+                        showNotification('Please enter a valid UPI ID!', 'error');
+                        return false;
+                    }
+                    break;
+            }
+            return true;
+        }
+
+        function claimDailyBonus() {
+            const bonusAmount = parseInt(document.getElementById('dailyBonus').textContent);
+            const currentBalance = getUserBalance();
+            
+            updateUserBalance(currentBalance + bonusAmount);
+            
+            // Update login streak
+            const currentStreak = parseInt(document.getElementById('loginStreak').textContent);
+            document.getElementById('loginStreak').textContent = currentStreak + 1;
+            
+            // Disable button and update text
+            const bonusBtn = document.getElementById('dailyBonusBtn');
+            bonusBtn.textContent = '✅ Claimed';
+            bonusBtn.disabled = true;
+            bonusBtn.style.opacity = '0.5';
+            
+            showNotification(`🎉 Daily bonus of ₹${bonusAmount} claimed successfully!`, 'success');
+            
+            loadBalanceData();
+        }
+
+        function shareReferralCode() {
+            const referralCode = document.getElementById('referralCode').textContent;
+            const shareText = `Join Golden Lottery with my referral code ${referralCode} and get ₹500 bonus! Download now: https://goldenlottery.com`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Golden Lottery Referral',
+                    text: shareText,
+                    url: 'https://goldenlottery.com'
+                });
+            } else {
+                // Fallback - copy to clipboard
+                navigator.clipboard.writeText(shareText).then(() => {
+                    showNotification('Referral link copied to clipboard!', 'success');
+                });
+            }
+        }
+
+        function updateBonusInfo() {
+            const userData = getCurrentUser();
+            if (!userData) return;
+            
+            document.getElementById('vipLevel').textContent = `VIP ${userData.vipLevel}`;
+            document.getElementById('referralCode').textContent = userData.id.toUpperCase().substr(0, 8);
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
