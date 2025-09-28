@@ -1,1 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Golden Lottery</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h2 style="color: var(--gold); margin: 0;">🎰 Golden Lottery</h2>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="betting.html">Betting</a>
+                <a href="balance.html">Balance</a>
+                <a href="leaderboard.html">Leaderboard</a>
+                <a href="login.html" class="active">Login</a>
+            </div>
+        </div>
+    </nav>
 
+    <!-- Login Container -->
+    <div class="login-container">
+        <div class="text-center mb-3">
+            <h2 style="color: var(--gold); margin-bottom: 0.5rem;">🔐 Welcome Back</h2>
+            <p style="color: rgba(255,255,255,0.8); margin-bottom: 2rem;">Login to your Golden Lottery account</p>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" style="display: block;">
+            <div class="form-group">
+                <label for="loginEmail">📧 Email Address</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="loginPassword">🔒 Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+            </div>
+            
+            <div class="form-group">
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="rememberMe" style="width: auto;">
+                    Remember me for 30 days
+                </label>
+            </div>
+            
+            <button type="submit" class="btn" style="width: 100%; margin: 1rem 0;">
+                🚀 Login to Account
+            </button>
+            
+            <div class="text-center">
+                <p style="margin: 1rem 0; color: rgba(255,255,255,0.7);">
+                    <a href="#" onclick="showForgotPassword()" style="color: var(--gold); text-decoration: none;">
+                        Forgot your password?
+                    </a>
+                </p>
+                
+                <p style="color: rgba(255,255,255,0.8);">
+                    Don't have an account? 
+                    <a href="#" onclick="showRegisterForm()" style="color: var(--gold); text-decoration: none; font-weight: bold;">
+                        Create New Account
+                    </a>
+                </p>
+            </div>
+        </form>
+
+        <!-- Register Form -->
+        <form id="registerForm" style="display: none;">
+            <div class="form-group">
+                <label for="registerName">👤 Full Name</label>
+                <input type="text" id="registerName" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="registerEmail">📧 Email Address</label>
+                <input type="email" id="registerEmail" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="registerPhone">📱 Phone Number</label>
+                <input type="tel" id="registerPhone" placeholder="Enter your phone number" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="registerPassword">🔒 Password</label>
+                <input type="password" id="registerPassword" placeholder="Create a strong password" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmPassword">🔒 Confirm Password</label>
+                <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="referralCode">🎁 Referral Code (Optional)</label>
+                <input type="text" id="referralCode" placeholder="Enter referral code for bonus">
+            </div>
+            
+            <div class="form-group">
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="agreeTerms" style="width: auto;" required>
+                    I agree to the <a href="#" style="color: var(--gold);">Terms & Conditions</a>
+                </label>
+            </div>
+            
+            <button type="submit" class="btn" style="width: 100%; margin: 1rem 0;">
+                🎯 Create Account
+            </button>
+            
+            <div class="text-center">
+                <p style="color: rgba(255,255,255,0.8);">
+                    Already have an account? 
+                    <a href="#" onclick="showLoginForm()" style="color: var(--gold); text-decoration: none; font-weight: bold;">
+                        Login Here
+                    </a>
+                </p>
+            </div>
+        </form>
+
+        <!-- Forgot Password Form -->
+        <form id="forgotPasswordForm" style="display: none;">
+            <div class="form-group">
+                <label for="resetEmail">📧 Email Address</label>
+                <input type="email" id="resetEmail" placeholder="Enter your registered email" required>
+            </div>
+            
+            <button type="submit" class="btn" style="width: 100%; margin: 1rem 0;">
+                📨 Send Reset Link
+            </button>
+            
+            <div class="text-center">
+                <p style="color: rgba(255,255,255,0.8);">
+                    Remember your password? 
+                    <a href="#" onclick="showLoginForm()" style="color: var(--gold); text-decoration: none; font-weight: bold;">
+                        Back to Login
+                    </a>
+                </p>
+            </div>
+        </form>
+
+        <!-- Social Login Options -->
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.2);" id="socialLogin">
+            <p style="text-align: center; color: rgba(255,255,255,0.7); margin-bottom: 1rem;">
+                Or continue with
+            </p>
+            
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button type="button" onclick="loginWithGoogle()" class="btn" style="flex: 1; background: linear-gradient(45deg, #db4437, #c23321);">
+                    🌐 Google
+                </button>
+                <button type="button" onclick="loginWithFacebook()" class="btn" style="flex: 1; background: linear-gradient(45deg, #4267b2, #365899);">
+                    📘 Facebook
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Demo Login -->
+        <div style="margin-top: 2rem; padding: 1rem; background: rgba(255,215,0,0.1); border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);">
+            <p style="text-align: center; color: var(--gold); font-weight: bold; margin-bottom: 1rem;">
+                🎮 Quick Demo Access
+            </p>
+            <button type="button" onclick="quickDemoLogin()" class="btn" style="width: 100%; background: linear-gradient(45deg, var(--gold), #ffed4e); color: #000;">
+                🚀 Try Demo Account
+            </button>
+            <p style="text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-top: 0.5rem;">
+                Start with ₹1000 demo balance
+            </p>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div class="notification" id="notification">
+        <div id="notificationContent"></div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    <script src="user.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeLoginPage();
+        });
+
+        function initializeLoginPage() {
+            // Check if user is already logged in
+            if (isUserLoggedIn()) {
+                showNotification('You are already logged in! Redirecting...', 'info');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+                return;
+            }
+
+            setupFormHandlers();
+        }
+
+        function setupFormHandlers() {
+            // Login form handler
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleLogin();
+            });
+
+            // Register form handler
+            document.getElementById('registerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleRegister();
+            });
+
+            // Forgot password form handler
+            document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleForgotPassword();
+            });
+        }
+
+        function showLoginForm() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('forgotPasswordForm').style.display = 'none';
+            document.getElementById('socialLogin').style.display = 'block';
+        }
+
+        function showRegisterForm() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('forgotPasswordForm').style.display = 'none';
+            document.getElementById('socialLogin').style.display = 'block';
+        }
+
+        function showForgotPassword() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('forgotPasswordForm').style.display = 'block';
+            document.getElementById('socialLogin').style.display = 'none';
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            // Basic validation
+            if (!email || !password) {
+                showNotification('Please fill in all fields!', 'error');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = document.querySelector('#registerForm button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '🔄 Creating account...';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                const userData = {
+                    id: 'user_' + Math.random().toString(36).substr(2, 9),
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    balance: referralCode ? 1500 : 1000, // Bonus for referral
+                    vipLevel: 1,
+                    joinDate: new Date().toISOString(),
+                    lastLogin: new Date().toISOString(),
+                    referralCode: referralCode
+                };
+
+                // Store user data
+                loginUser(userData, false);
+
+                // Show success message
+                const bonusMessage = referralCode ? ' You got ₹500 referral bonus!' : '';
+                showNotification(`🎉 Account created successfully!${bonusMessage} Welcome to Golden Lottery!`, 'success');
+
+                // Reset form
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+
+                // Redirect to home page
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2500);
+
+            }, 2500);
+        }
+
+        function handleForgotPassword() {
+            const email = document.getElementById('resetEmail').value;
+
+            if (!email) {
+                showNotification('Please enter your email address!', 'error');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = document.querySelector('#forgotPasswordForm button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '📨 Sending...';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                showNotification('Password reset link sent to your email! Check your inbox.', 'success');
+                
+                // Reset form
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+                // Show login form after success
+                setTimeout(() => {
+                    showLoginForm();
+                }, 2000);
+            }, 2000);
+        }
+
+        function loginWithGoogle() {
+            showNotification('🔄 Redirecting to Google...', 'info');
+            
+            // Simulate Google login
+            setTimeout(() => {
+                const userData = {
+                    id: 'google_' + Math.random().toString(36).substr(2, 9),
+                    name: 'Google User',
+                    email: 'user@gmail.com',
+                    phone: '+91-9876543210',
+                    balance: 2000,
+                    vipLevel: 2,
+                    joinDate: new Date().toISOString(),
+                    lastLogin: new Date().toISOString(),
+                    loginMethod: 'google'
+                };
+
+                loginUser(userData, true);
+                showNotification('🎉 Google login successful!', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            }, 2000);
+        }
+
+        function loginWithFacebook() {
+            showNotification('🔄 Redirecting to Facebook...', 'info');
+            
+            // Simulate Facebook login
+            setTimeout(() => {
+                const userData = {
+                    id: 'fb_' + Math.random().toString(36).substr(2, 9),
+                    name: 'Facebook User',
+                    email: 'user@facebook.com',
+                    phone: '+91-9876543210',
+                    balance: 1500,
+                    vipLevel: 1,
+                    joinDate: new Date().toISOString(),
+                    lastLogin: new Date().toISOString(),
+                    loginMethod: 'facebook'
+                };
+
+                loginUser(userData, true);
+                showNotification('🎉 Facebook login successful!', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            }, 2000);
+        }
+
+        function quickDemoLogin() {
+            const userData = {
+                id: 'demo_' + Math.random().toString(36).substr(2, 9),
+                name: 'Demo Player',
+                email: 'demo@goldenlottery.com',
+                phone: '+91-0000000000',
+                balance: 1000,
+                vipLevel: 1,
+                joinDate: new Date().toISOString(),
+                lastLogin: new Date().toISOString(),
+                isDemo: true
+            };
+
+            loginUser(userData, false);
+            showNotification('🎮 Demo account activated! Explore all features with ₹1000!', 'success');
+            
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+
+        // Form input animations
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.parentElement.classList.remove('focused');
+                }
+            });
+        });
+    </script>
+
+    <style>
+        .form-group.focused label {
+            color: var(--gold);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .login-container {
+            animation: slideInUp 0.6s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .nav-links a.active {
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.5);
+        }
+    </style>
+</body>
+</html>loginForm button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '🔄 Logging in...';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                // For demo purposes, accept any email/password combination
+                const userData = {
+                    id: 'user_' + Math.random().toString(36).substr(2, 9),
+                    name: email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1),
+                    email: email,
+                    phone: '+91-' + Math.floor(Math.random() * 9000000000 + 1000000000),
+                    balance: Math.floor(Math.random() * 10000) + 1000,
+                    vipLevel: Math.floor(Math.random() * 3) + 1,
+                    joinDate: new Date().toISOString(),
+                    lastLogin: new Date().toISOString()
+                };
+
+                // Store user data
+                loginUser(userData, rememberMe);
+
+                // Show success message
+                showNotification('🎉 Login successful! Welcome back!', 'success');
+
+                // Reset form
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+
+                // Redirect to home page
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+
+            }, 2000); // Simulate network delay
+        }
+
+        function handleRegister() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const phone = document.getElementById('registerPhone').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const referralCode = document.getElementById('referralCode').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+
+            // Validation
+            if (!name || !email || !phone || !password || !confirmPassword) {
+                showNotification('Please fill in all required fields!', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showNotification('Passwords do not match!', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showNotification('Password must be at least 6 characters long!', 'error');
+                return;
+            }
+
+            if (!agreeTerms) {
+                showNotification('Please agree to the terms and conditions!', 'error');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = document.querySelector('#
